@@ -33,12 +33,12 @@ local _teleportGui = ReplicatedStorage["StoredGuis"].EmptyScreenGui
 ---------- Local functions ----------
 
 local function clearZone()
-    if timerTrove then
-        timerTrove:Destroy()
-    end
-    timerTrove = nil
-    timer = nil
-    _players:clear()
+	if timerTrove then
+		timerTrove:Destroy()
+	end
+	timerTrove = nil
+	timer = nil
+	_players:clear()
 end
 
 local function teleportPlayers()
@@ -54,7 +54,7 @@ local function createNewTimer()
 	if timerTrove then
 		timerTrove:Destroy()
 	end
-    local trove = Trove.new()
+	local trove = Trove.new()
 	timerTrove = trove
 
 	-- Create new timer
@@ -64,27 +64,27 @@ local function createNewTimer()
 	local newTimer = trove:Add(TimerUtility.new(_countdownSeconds))
 	timer = newTimer
 
-    -- Set up countdown (one tick)
-    newTimer.ticked:Once(teleportPlayers)
+	-- Set up countdown (one tick)
+	newTimer.ticked:Once(teleportPlayers)
 end
 
 local function startTimer()
-    -- Validate timer
-    if not timer then
-        return
-    end
+	-- Validate timer
+	if not timer then
+		return
+	end
 
-    -- Start timer
+	-- Start timer
 	timer:start(false)
 end
 
 ---------- Module functions ----------
 
 function ZoneEvents.onEntered(player: Player)
-    -- Validate max players
-    if #_players:getArray() >= _maxPlayers then
-        return
-    end
+	-- Validate max players
+	if #_players:getArray() >= _maxPlayers then
+		return
+	end
 
 	-- Validate unique player
 	if _players:isValueStored(player) then
@@ -92,20 +92,20 @@ function ZoneEvents.onEntered(player: Player)
 	end
 
 	-- Create new timer if none
-    local isNewTimer = false
+	local isNewTimer = false
 	if not timer then
-        isNewTimer = true
-        clearZone()
+		isNewTimer = true
+		clearZone()
 		createNewTimer()
 	end
 
 	-- Add player
-    _players:insertAll({player})
+	_players:insertAll({player})
 
-    -- Start timer if new
-    if isNewTimer then
-        startTimer()
-    end
+	-- Start timer if new
+	if isNewTimer then
+		startTimer()
+	end
 end
 
 function ZoneEvents.onExited(player: Player)
@@ -115,7 +115,7 @@ function ZoneEvents.onExited(player: Player)
 	end
 
 	-- Remove player
-    _players:removeValues({player})
+	_players:removeValues({player})
 
 	-- Clear timer if no players in zone
 	if #_players:getArray() == 0 then

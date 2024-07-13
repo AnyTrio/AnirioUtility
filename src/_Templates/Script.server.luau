@@ -8,17 +8,17 @@
 
 -- For tools
 if script:FindFirstAncestorWhichIsA("StarterPack") then
-    return
+	return
 end
 
 -- For some server scripts
 if not script:FindFirstAncestorWhichIsA("ServerScriptService") then
-    return
+	return
 end
 
 -- For certain client scripts
 if not script:FindFirstAncestorWhichIsA("PlayerScripts") then
-    return
+	return
 end
 
 ---------- Services ----------

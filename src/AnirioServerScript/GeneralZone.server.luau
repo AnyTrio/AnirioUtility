@@ -9,7 +9,7 @@
 
 -- For some server scripts
 if not script:FindFirstAncestorWhichIsA("ServerScriptService") then
-    return
+	return
 end
 
 ---------- Services ----------
@@ -40,11 +40,11 @@ local function setUpZone(taggedObject: Instance, zoneHolder: Instance, eventsMod
 	local zoneEvents = require(eventsModuleScript)
 
 	-- Set up trove
-    local trove = Trove.new()
-    if taggedObjectTroves[taggedObject] then
-        taggedObjectTroves[taggedObject]:Destroy()
-    end
-    taggedObjectTroves[taggedObject] = trove
+	local trove = Trove.new()
+	if taggedObjectTroves[taggedObject] then
+		taggedObjectTroves[taggedObject]:Destroy()
+	end
+	taggedObjectTroves[taggedObject] = trove
 
 	-- Initialize zone
 	local zone = trove:Add(Zone.new())
@@ -63,14 +63,14 @@ end
 -- Functions that are directly connected by events or signals
 
 local function onInstanceAdded(object: Instance)
-    -- Validate containers
-    local zoneHolder = object:FindFirstChild(interactionContainerName)
-    if not zoneHolder then
-        return
-    end
-    if not zoneHolder:FindFirstChildWhichIsA("BasePart") then
-        return
-    end
+	-- Validate containers
+	local zoneHolder = object:FindFirstChild(interactionContainerName)
+	if not zoneHolder then
+		return
+	end
+	if not zoneHolder:FindFirstChildWhichIsA("BasePart") then
+		return
+	end
 
 	-- Validate object value
 	local eventsModuleObject = object:FindFirstChild(eventsModuleObjectName) :: ObjectValue
@@ -79,8 +79,8 @@ local function onInstanceAdded(object: Instance)
 		return
 	end
 
-    -- Set up zone
-    setUpZone(object, zoneHolder, eventsModuleScript)
+	-- Set up zone
+	setUpZone(object, zoneHolder, eventsModuleScript)
 end
 
 local function onInstanceRemoved(object: Instance)
@@ -94,14 +94,14 @@ end
 
 ---------- Set up function ----------
 local function initSetUp()
-    local tagged = CollectionService:GetTagged(tagName)
-    task.defer(function()
-        for _, object in tagged do
-            onInstanceAdded(object)
-        end
-    end)
-    CollectionService:GetInstanceAddedSignal(tagName):Connect(onInstanceAdded)
-    CollectionService:GetInstanceRemovedSignal(tagName):Connect(onInstanceRemoved)
+	local tagged = CollectionService:GetTagged(tagName)
+	task.defer(function()
+		for _, object in tagged do
+			onInstanceAdded(object)
+		end
+	end)
+	CollectionService:GetInstanceAddedSignal(tagName):Connect(onInstanceAdded)
+	CollectionService:GetInstanceRemovedSignal(tagName):Connect(onInstanceRemoved)
 end
 
 ---------- Calling / connecting functions ----------

@@ -32,8 +32,8 @@ type ZoneData = {
 	_trove: Trove.Trove,
 	_enabled: boolean,
 
-    playerEntered: Signal.Signal<Player>,
-    playerExited: Signal.Signal<Player>,
+	playerEntered: Signal.Signal<Player>,
+	playerExited: Signal.Signal<Player>,
 
 	_actualParts: AnirioTable.TableType<BasePart>,
 
@@ -44,7 +44,7 @@ type ZoneData = {
 
 	_containedPlayers: AnirioTable.TableType<Player>,
 
-    _instanceDetectedState: {[Instance]: boolean}
+	_instanceDetectedState: {[Instance]: boolean}
 }
 
 -- Define module type

@@ -1,28 +1,28 @@
 {
-    "name": "AnirioUtility",
-    "tree": {
-        "$className": "DataModel",
+	"name": "AnirioUtility",
+	"tree": {
+		"$className": "DataModel",
 
-        "ReplicatedStorage": {
-            "AnirioReplicated": {
-                "$path": "src/AnirioReplicated"
-            },
-            "$path": "src/OtherReplicated"
-        },
+		"ReplicatedStorage": {
+			"AnirioReplicated": {
+				"$path": "src/AnirioReplicated"
+			},
+			"$path": "src/OtherReplicated"
+		},
 
-        "ServerStorage": {
-            "AnirioServerStorage": {
-                "$path": "src/AnirioServerStorage"
-            },
-            "$path": "src/OtherServerStorage"
-        },
+		"ServerStorage": {
+			"AnirioServerStorage": {
+				"$path": "src/AnirioServerStorage"
+			},
+			"$path": "src/OtherServerStorage"
+		},
 
-        "ServerScriptService": {
-            "AnirioServerScript": {
-                "$path": "src/AnirioServerScript"
-            },
-            "$path": "src/OtherServerScript"
-        }
-    },
-    "emitLegacyScripts": false
+		"ServerScriptService": {
+			"AnirioServerScript": {
+				"$path": "src/AnirioServerScript"
+			},
+			"$path": "src/OtherServerScript"
+		}
+	},
+	"emitLegacyScripts": false
 }
