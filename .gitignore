@@ -1,0 +1,16 @@
+# DS Store
+/.DS_Store
+
+# Model file
+/*.rbxm
+
+# Project place file
+/*.rbxl
+
+# Roblox Studio lock files
+/*.rbxlx.lock
+/*.rbxl.lock
+
+# Other files
+/src/AnirioServerStorage
+/src/OtherServerScript
