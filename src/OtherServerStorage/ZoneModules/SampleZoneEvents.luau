@@ -16,7 +16,7 @@ local AnirioTable = require(ReplicatedStorage["AnirioReplicated"].AnirioTable)
 local Servers = require(ReplicatedStorage["AnirioReplicated"].Servers)
 local TimerUtility = require(ReplicatedStorage["AnirioReplicated"].Timer)
 
-local Trove = require(ReplicatedStorage["Sleitnick's"].Trove)
+local Trove = require(ReplicatedStorage["AnirioReplicated"].Packages.Trove)
 
 ---------- Variables ----------
 
@@ -87,7 +87,7 @@ function ZoneEvents.onEntered(player: Player)
 	end
 
 	-- Validate unique player
-	if _players:isValueStored(player) then
+	if _players:contains(player) then
 		return
 	end
 
@@ -110,7 +110,7 @@ end
 
 function ZoneEvents.onExited(player: Player)
 	-- Validate stored player
-	if not _players:isValueStored(player) then
+	if not _players:contains(player) then
 		return
 	end
 

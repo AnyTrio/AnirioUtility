@@ -1,0 +1,16 @@
+[package]
+name = "anytrio/timer"
+description = """A class to fire signals/events at regular intervals;
+Includes features such as pausing the timer and changing the time function;
+Part of Anirio Utility"""
+
+version = "1.0.0"
+license = "MIT"
+authors = ["Mario Chao"]
+realm = "shared"
+registry = "https://github.com/UpliftGames/wally-index"
+exclude = ["**/*/wally.toml"]
+
+[dependencies]
+Signal = "sleitnick/signal@2"
+Trove = "sleitnick/trove@1"

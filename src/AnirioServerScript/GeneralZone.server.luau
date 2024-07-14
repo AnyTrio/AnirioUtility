@@ -21,7 +21,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Zone = require(ReplicatedStorage["AnirioReplicated"].Zone)
 
-local Trove = require(ReplicatedStorage["Sleitnick's"].Trove)
+local Trove = require(ReplicatedStorage["AnirioReplicated"].Packages.Trove)
 
 ---------- Variables ----------
 

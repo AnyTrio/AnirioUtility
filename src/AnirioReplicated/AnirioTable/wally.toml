@@ -1,0 +1,14 @@
+[package]
+name = "anytrio/aniriotable"
+description = """A class to simplify and optimize table accessing, inserting, and removing;
+A dictionary is used for indexing, which optimizes value existence check;
+Part of Anirio Utility"""
+
+version = "1.0.0"
+license = "MIT"
+authors = ["Mario Chao"]
+realm = "shared"
+registry = "https://github.com/UpliftGames/wally-index"
+exclude = ["**/*/wally.toml"]
+
+[dependencies]

@@ -1,0 +1,16 @@
+[package]
+name = "anytrio/anirioreplicated"
+description = "A bundle of all shared modules in Anirio Utility"
+
+version = "0.1.0"
+license = "MIT"
+authors = ["Mario Chao"]
+realm = "shared"
+registry = "https://github.com/UpliftGames/wally-index"
+exclude = ["**/*/wally.toml"]
+
+[dependencies]
+Signal = "sleitnick/signal@2"
+Trove = "sleitnick/trove@1"
+
+[server-dependencies]

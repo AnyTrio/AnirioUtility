@@ -1,0 +1,13 @@
+[package]
+name = "anytrio/raycast"
+description = """A utility to perform common raycasts;
+Part of Anirio Utility"""
+
+version = "0.1.0"
+license = "MIT"
+authors = ["Mario Chao"]
+realm = "shared"
+registry = "https://github.com/UpliftGames/wally-index"
+exclude = ["**/*/wally.toml"]
+
+[dependencies]

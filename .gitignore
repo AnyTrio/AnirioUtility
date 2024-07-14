@@ -1,16 +1,21 @@
 # DS Store
-/.DS_Store
+.DS_Store
 
-# Model file
+# Rojo build files
 /*.rbxm
-
-# Project place file
 /*.rbxl
 
 # Roblox Studio lock files
 /*.rbxlx.lock
 /*.rbxl.lock
 
+# Wally lock files
+wally.lock
+
+# Packages
+**/Packages/
+**/ServerPackages/
+**/DevPackages/
+**/TestPackages/
+
 # Other files
-/src/AnirioServerStorage
-/src/OtherServerScript

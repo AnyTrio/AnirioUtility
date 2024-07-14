@@ -1,28 +1,35 @@
 --!strict
 -- Player Utility Module
 
+-- A utility to provide more features to the Players service
+-- Includes CharacterAdded and Removing signals/events for all players, which simplifies connections
+
 ---------- Module ----------
 local PlayerUtility = {}
 
 ---------- Services ----------
 
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 ---------- Imports ----------
 
 local AnirioReplicated = script.Parent
 local Character = require(AnirioReplicated.Character)
 
-local Signal = require(ReplicatedStorage["Sleitnick's"].Signal)
+local Packages = AnirioReplicated["Packages"] or AnirioReplicated.Parent["Packages"] or AnirioReplicated
+local Signal = require(Packages.Signal)
 
 ---------- Module variables ----------
 
+-- Fires when any player's character spawns or respawns
 PlayerUtility.CharacterAdded = Signal.new() :: Signal.Signal<Player, Model>
+
+-- Fires right before any player's character is removed
 PlayerUtility.CharacterRemoving = Signal.new() :: Signal.Signal<Player, Model>
 
 ---------- Local functions ----------
 
+-- Get players from character model parts
 local function getPlayersFromParts(partsTable: {BasePart}): {Player}
 	-- Initialize players
 	local players: {Player} = {}
@@ -51,7 +58,8 @@ local function getPlayersFromParts(partsTable: {BasePart}): {Player}
 	return players
 end
 
-local function getSinglePlayerParts(player: Player, partNames: {string}): {BasePart}
+-- Get parts of a given player's character model with names specified by `includePartNames`
+local function getSinglePlayerParts(player: Player, includePartNames: {string}?): {BasePart}
 	-- Validate character
 	local character = player.Character
 	if not character then
@@ -59,16 +67,18 @@ local function getSinglePlayerParts(player: Player, partNames: {string}): {BaseP
 	end
 
 	-- Set up part names state
-	local ignoreName = (#partNames == 0)
+	local ignoreName = (includePartNames == nil)
 	local findName: {[string]: boolean} = {}
-	for _, name in partNames do
-		-- Validate string
-		if not (typeof(name) == "string") then
-			continue
-		end
+	if not ignoreName then
+		for _, name in includePartNames do
+			-- Validate string
+			if not (typeof(name) == "string") then
+				continue
+			end
 
-		-- Set name state
-		findName[name] = true
+			-- Set name state
+			findName[name] = true
+		end
 	end
 
 	-- Initialize parts
@@ -94,17 +104,20 @@ local function getSinglePlayerParts(player: Player, partNames: {string}): {BaseP
 	return partsTable
 end
 
-local function getAllPlayerParts(partNames: {string}): {BasePart}
+-- Get parts by calling `getSinglePlayerParts()` for all players with the same argument
+local function getAllPlayerParts(includePartNames: {string}?): {BasePart}
 	-- Initialize parts
 	local partsTable: {BasePart} = {}
 
 	-- Get parts in all players
 	for _, player in Players:GetPlayers() do
 		-- Get parts in player
-		local singlePartsTable = getSinglePlayerParts(player, partNames)
+		local singlePartsTable = getSinglePlayerParts(player, includePartNames)
 
 		-- Add parts to table
-		table.move(singlePartsTable, 1, #singlePartsTable, #partsTable + 1, partsTable)
+		for _, part in singlePartsTable do
+			table.insert(partsTable, part)
+		end
 	end
 
 	-- Return parts
@@ -113,6 +126,7 @@ end
 
 ---------- Event functions ----------
 
+-- Connect the player's character signals to the utility's signal
 local function onPlayerAdded(player: Player)
 	if player.Character then
 		task.defer(function()
@@ -134,14 +148,14 @@ function PlayerUtility.fromCharacterParts(parts: {BasePart}): {Player}
 	return getPlayersFromParts(parts)
 end
 
--- Get the base-part children of a player's character model
-function PlayerUtility.getParts(player: Player, partNames: {string}): {BasePart}
-	return getSinglePlayerParts(player, partNames)
+-- Get the `BasePart` children of a player's character model
+function PlayerUtility.getParts(player: Player, includePartNames: {string}?): {BasePart}
+	return getSinglePlayerParts(player, includePartNames)
 end
 
--- Get the base-part children of the character models of all players currently in the server
-function PlayerUtility.getAllPlayerParts(partNames: {string}): {BasePart}
-	return getAllPlayerParts(partNames)
+-- Get the `BasePart` children of all players current character models
+function PlayerUtility.getAllPlayerParts(includePartNames: {string}?): {BasePart}
+	return getAllPlayerParts(includePartNames)
 end
 
 ---------- Calling / connecting functions ----------

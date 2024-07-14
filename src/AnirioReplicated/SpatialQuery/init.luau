@@ -1,6 +1,9 @@
 --!strict
 -- Spatial Query Utility Module
 
+-- A utility to expand and simplify spatial query operations
+-- Automatically switches query type depending on the shape of each part
+
 ---------- Module ----------
 local SpatialQuery = {}
 

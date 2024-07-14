@@ -1,0 +1,14 @@
+[package]
+name = "anytrio/character"
+description = """A utility to simplify getting characters;
+Additional functionalities are found in Player Utility;
+Part of Anirio Utility"""
+
+version = "1.0.0"
+license = "MIT"
+authors = ["Mario Chao"]
+realm = "shared"
+registry = "https://github.com/UpliftGames/wally-index"
+exclude = ["**/*/wally.toml"]
+
+[dependencies]

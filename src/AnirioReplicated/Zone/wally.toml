@@ -1,0 +1,19 @@
+[package]
+name = "anytrio/zone"
+description = """A class to set up zones which detect things entering and exiting;
+Some inspirations from 1ForeverHD's ZonePlus;
+Part of Anirio Utility"""
+
+version = "0.1.0"
+license = "MIT"
+authors = ["Mario Chao"]
+realm = "shared"
+registry = "https://github.com/UpliftGames/wally-index"
+exclude = ["**/*/wally.toml"]
+
+[dependencies]
+AnirioTable = "anytrio/aniriotable@1"
+PlayerUtility = "anytrio/playerutility@1"
+SpatialQuery = "anytrio/spatialquery@1"
+Signal = "sleitnick/signal@2"
+Trove = "sleitnick/trove@1"

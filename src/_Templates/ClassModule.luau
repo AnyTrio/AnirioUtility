@@ -61,6 +61,7 @@ end
 -- Signals
 -- Define signal handling here
 
+-- Set up signals
 function SomeModule._setUpSignals(self: SomeType)
 
 end
@@ -68,6 +69,7 @@ end
 -- Clean up
 -- Define cleanup methods here
 
+-- Clean up the object
 function SomeModule.destroy(self: SomeType)
 
 end

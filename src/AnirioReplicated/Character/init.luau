@@ -1,6 +1,9 @@
 --!strict
 -- Character Utility Module
 
+-- A utility to simplify getting characters
+-- Additional functionalities are found in Player Utility
+
 ---------- Module ----------
 local Character = {}
 
@@ -10,12 +13,13 @@ local Players = game:GetService("Players")
 
 ---------- Local functions ----------
 
+-- Get the part's parent, checking if it is a character model with a `Humanoid`
 local function getAndValidateCharacterFromPart(part: BasePart): Model?
 	-- Validate part
 	if not part:IsA("BasePart") then
 		return nil
 	end
-	
+
 	-- Validate character
 	local character = part.Parent
 	if not (character and character:IsA("Model")) then
@@ -34,12 +38,12 @@ end
 
 ---------- Module functions ----------
 
--- Retrieve a character model from a children part; fail if the model doesn't have a Humanoid
+-- Get a character model from a children part; `nil` if the model doesn't have a `Humanoid`
 function Character.fromPart(part: BasePart): Model?
 	return getAndValidateCharacterFromPart(part)
 end
 
--- Retrieve the Player object from a character model
+-- Get the `Player` object from a character model
 function Character.getPlayer(character: Model?): Player?
 	local player: Player?
 	player = character and Players:GetPlayerFromCharacter(character)
