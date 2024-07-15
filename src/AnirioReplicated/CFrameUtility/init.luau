@@ -2,6 +2,7 @@
 -- CFrame Utility Module
 
 -- A utility to perform common and complex CFrame calculations
+-- Uses include turning and tilting parts upright
 
 ---------- Module ----------
 local CFrameUtility = {}
@@ -112,7 +113,7 @@ function CFrameUtility.getStandUpright(originalCFrame: CFrame, modelUpVector: Ve
 	return getStandUprightCFrame(originalCFrame, modelUpVector)
 end
 
--- Get the upright `CFrame` without changing its `UpVector`
+-- Get the upright `CFrame` without changing its `LookVector`
 function CFrameUtility.getTiltUpright(originalCFrame: CFrame, modelUpVector: Vector3?): CFrame
 	return getTiltUprightCFrame(originalCFrame, modelUpVector)
 end

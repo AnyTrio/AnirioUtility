@@ -69,7 +69,7 @@ local function getSinglePlayerParts(player: Player, includePartNames: {string}?)
 	-- Set up part names state
 	local ignoreName = (includePartNames == nil)
 	local findName: {[string]: boolean} = {}
-	if not ignoreName then
+	if includePartNames then
 		for _, name in includePartNames do
 			-- Validate string
 			if not (typeof(name) == "string") then

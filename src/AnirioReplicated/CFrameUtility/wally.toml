@@ -1,6 +1,7 @@
 [package]
-name = "anytrio/cframeutility"
+name = "anytrio/cframe-utility"
 description = """A utility to perform common and complex CFrame calculations;
+Uses include turning and tilting parts upright;
 Part of Anirio Utility"""
 
 version = "1.0.0"

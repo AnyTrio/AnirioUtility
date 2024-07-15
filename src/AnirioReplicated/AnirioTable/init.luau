@@ -134,7 +134,7 @@ function AnirioTable._evaluateLazyRemove<T>(self: TableType<T>)
 		-- Check removing value
 		if removingState[value] then
 			-- Remove value state
-			self._tableValueState[value] = nil
+			changeTableValueBy(self._tableValueState, value, -1)
 			changeTableValueBy(removingState, value, -1)
 		else
 			-- Add to new values
@@ -265,8 +265,8 @@ function AnirioTable.contains<T>(self: TableType<T>, value: T): boolean
 	self:_update()
 
 	-- Return
-	local count = self._tableValueState[value]
-	return (count and count > 0) or false
+	local count = getTableValueNumber(self._tableValueState, value)
+	return (count > 0)
 end
 
 -- Compare the stored table with the given table, returning the added and removed values as two tables

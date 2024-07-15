@@ -1,5 +1,5 @@
 [package]
-name = "anytrio/aniriotable"
+name = "anytrio/anirio-table"
 description = """A class to simplify and optimize table accessing, inserting, and removing;
 Implements a set/multiset-like data structure for indexing values;
 Part of Anirio Utility"""

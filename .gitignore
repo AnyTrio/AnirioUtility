@@ -19,3 +19,4 @@ wally.lock
 **/TestPackages/
 
 # Other files
+src/AnirioReplicated/_Deprecated

@@ -6,10 +6,16 @@ The [Templates](/src/_Templates/) folder contains template codes for class modul
 
 The main utilities can be found in [Anirio Replicated](/src/AnirioReplicated/).
 
-Some utilities require [Signal](https://sleitnick.github.io/RbxUtil/api/Signal/) and [Trove](https://sleitnick.github.io/RbxUtil/api/Trove/) developed by Sleitnick. They are found in the [Sleitnick's](/src/OtherReplicated/Sleitnick's/) folder.
-
 The [Anirio Server Script](/src/AnirioServerScript/) folder contains some example game scripts that utilize these utilities.<br>
 These can be accompanied by assets found in the [Other Server Storage](/src/OtherServerStorage/) and [Other Replicated](/src/OtherReplicated/) folders.
+
+## Utility modules
+
+Here's the list of utility modules:
+| Module | Wally | Short Description |
+| --- | --- | --- |
+| AnirioTable | https://wally.run/package/anytrio/anirio-table | Quick table, Multiset |
+| CFrameUtility | https://wally.run/package/anytrio/cframe-utility | Common CFrame operations |
 
 # Auto-generated
 

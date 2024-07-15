@@ -1,5 +1,5 @@
 [package]
-name = "anytrio/playerutility"
+name = "anytrio/player-utility"
 description = """A utility to provide more features to the Players service;
 Includes CharacterAdded and Removing signals/events for all players, which simplifies connections;
 Part of Anirio Utility"""

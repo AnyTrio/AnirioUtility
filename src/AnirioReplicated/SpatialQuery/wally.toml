@@ -1,5 +1,5 @@
 [package]
-name = "anytrio/spatialquery"
+name = "anytrio/spatial-query"
 description = """A utility to expand and simplify spatial query operations;
 Automatically switches query type depending on the shape of each part;
 Part of Anirio Utility"""
