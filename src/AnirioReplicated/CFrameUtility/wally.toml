@@ -1,7 +1,6 @@
 [package]
-name = "anytrio/aniriotable"
-description = """A class to simplify and optimize table accessing, inserting, and removing;
-Implements a set/multiset-like data structure for indexing values;
+name = "anytrio/cframeutility"
+description = """A utility to perform common and complex CFrame calculations;
 Part of Anirio Utility"""
 
 version = "1.0.0"

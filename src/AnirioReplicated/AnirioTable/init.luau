@@ -2,7 +2,7 @@
 -- Anirio Table Class Module
 
 -- A class to simplify and optimize table accessing, inserting, and removing
--- A dictionary is used for indexing, which optimizes value existence check
+-- Implements a set/multiset-like data structure for indexing values
 
 -- Note: Lazy evaluation is used to optimize removeValues()
 
@@ -56,7 +56,7 @@ local function valueIsA(value, className: string?): boolean
 	end
 end
 
--- A combination of valueIsTypeOf() and valueIsA()
+-- A combination of `valueIsTypeOf()` and `valueIsA()`
 local function valueIs(value, typeOfValue: string?, className: string?): boolean
 	return valueIsTypeOf(value, typeOfValue) and valueIsA(value, className)
 end
