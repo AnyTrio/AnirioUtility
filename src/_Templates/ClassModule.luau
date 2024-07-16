@@ -12,6 +12,8 @@ SomeModule.__index = SomeModule
 
 ---------- Imports ----------
 
+local Packages = script.Parent
+
 ---------- Types ----------
 
 -- Define module data with potential properties

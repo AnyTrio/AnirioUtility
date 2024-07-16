@@ -19,7 +19,7 @@ local RunService = game:GetService("RunService")
 
 local AnirioReplicated = script.Parent
 
-local Packages = AnirioReplicated["Packages"] or AnirioReplicated.Parent["Packages"] or AnirioReplicated
+local Packages = AnirioReplicated
 local Signal = require(Packages.Signal)
 local Trove = require(Packages.Trove)
 

@@ -4,7 +4,7 @@ description = """A utility to simplify teleporting players between places and se
 Automates various aspects of TeleportService and TeleportAsync;
 Part of Anirio Utility"""
 
-version = "0.1.0"
+version = "1.0.0"
 license = "MIT"
 authors = ["Mario Chao"]
 realm = "shared"

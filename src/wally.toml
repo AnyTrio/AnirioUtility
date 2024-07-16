@@ -1,6 +1,6 @@
 [package]
-name = "anytrio/anirioreplicated"
-description = "A bundle of all shared modules in Anirio Utility"
+name = "anytrio/anirio-utility"
+description = "A bundle of all things in Anirio Utility"
 
 version = "0.1.0"
 license = "MIT"

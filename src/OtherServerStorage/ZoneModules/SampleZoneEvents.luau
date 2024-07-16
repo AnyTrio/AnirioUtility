@@ -20,6 +20,8 @@ local Trove = require(ReplicatedStorage["AnirioReplicated"].Packages.Trove)
 
 ---------- Variables ----------
 
+local _teleportFunction = Servers.teleportNewReserve
+
 local timerTrove: Trove.Trove? = nil
 local timer: TimerUtility.TimerType? = nil
 local _countdownSeconds = 5
@@ -44,7 +46,7 @@ end
 local function teleportPlayers()
 	local zonePlayers = table.clone(_players:getArray())
 	task.defer(function()
-		Servers.teleportNewReserve(_placeId, zonePlayers, _teleportGui)
+		_teleportFunction(_placeId, zonePlayers, _teleportGui)
 	end)
 	clearZone()
 end

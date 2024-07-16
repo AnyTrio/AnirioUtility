@@ -22,7 +22,7 @@ local AnirioTable = require(AnirioReplicated.AnirioTable)
 local PlayerUtility = require(AnirioReplicated.PlayerUtility)
 local SpatialQuery = require(AnirioReplicated.SpatialQuery)
 
-local Packages = AnirioReplicated["Packages"] or AnirioReplicated.Parent["Packages"] or AnirioReplicated
+local Packages = AnirioReplicated
 local Signal = require(Packages.Signal)
 local Trove = require(Packages.Trove)
 

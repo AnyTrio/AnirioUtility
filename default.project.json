@@ -5,7 +5,16 @@
 
 		"ReplicatedStorage": {
 			"AnirioReplicated": {
-				"$path": "src/AnirioReplicated"
+				"AnirioTable": {"$path": "src/AnirioReplicated/AnirioTable"},
+				"CFrameUtility": {"$path": "src/AnirioReplicated/CFrameUtility"},
+				"Character": {"$path": "src/AnirioReplicated/Character"},
+				"PlayerUtility": {"$path": "src/AnirioReplicated/PlayerUtility"},
+				"Raycast": {"$path": "src/AnirioReplicated/Raycast"},
+				"Servers": {"$path": "src/AnirioReplicated/Servers"},
+				"SpatialQuery": {"$path": "src/AnirioReplicated/SpatialQuery"},
+				"Timer": {"$path": "src/AnirioReplicated/Timer"},
+				"Zone": {"$path": "src/AnirioReplicated/Zone"},
+				"$path": "src/Packages"
 			},
 			"$path": "src/OtherReplicated"
 		},

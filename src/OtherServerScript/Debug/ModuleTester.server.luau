@@ -202,6 +202,18 @@ local function testPlayerUtility()
 	end
 end
 
+local function testRaycast()
+	
+end
+
+local function testServers()
+	
+end
+
+local function testSpatialQuery()
+	
+end
+
 ---------- Calling / connecting functions ----------
 -- Connect functions to events and signals, then call set up functions
 

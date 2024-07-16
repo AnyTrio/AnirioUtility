@@ -10,6 +10,8 @@ local SomeModule = {}
 
 ---------- Imports ----------
 
+local Packages = script.Parent
+
 ---------- Types ----------
 
 ---------- Instances ----------

@@ -16,7 +16,7 @@ local Players = game:GetService("Players")
 local AnirioReplicated = script.Parent
 local Character = require(AnirioReplicated.Character)
 
-local Packages = AnirioReplicated["Packages"] or AnirioReplicated.Parent["Packages"] or AnirioReplicated
+local Packages = AnirioReplicated
 local Signal = require(Packages.Signal)
 
 ---------- Module variables ----------
