@@ -99,26 +99,41 @@ local function testCFrameUtility()
 	local part = Instance.new("Part")
 	part.Anchored = true
 	part.Size = Vector3.new(2, 1, 4)
-	part.Size *= 10
-	-- part.Size = part.Size * 10
+	part.Size = part.Size * 10
 	part.Parent = workspace
+	for i = 1, 512 do
+		local cframe = CFrameUtility.getRandom(part.Position)
+		if true then
+			local p = part:Clone()
+			p.CFrame = cframe
+			p.Parent = workspace
+		end
+	end
 	for i = 1, 3 do
 		local x = (i == 1 and 1) or 0
 		local y = (i == 2 and 1) or 0
 		local z = (i == 3 and 1) or 0
 		local upVector = Vector3.new(x, y, z)
-		for j = 1, 512 do
+		for j = 1, 256 do
 			local cframe = CFrameUtility.getRandomUpright(part.Position, upVector)
 			print(cframe.UpVector)
+			if false then
+				part.CFrame = cframe
+				task.wait(0.05)
+			end
 		end
 	end
 	local random = Random.new()
 	for i = 1, 3 do
 		print(`i: {i}`)
 		local upVector = random:NextUnitVector()
-		for j = 1, 512 do
+		for j = 1, 256 do
 			local cframe = CFrameUtility.getRandomUpright(part.Position, upVector)
 			print(cframe.UpVector:FuzzyEq(upVector))
+			if false then
+				part.CFrame = cframe
+				task.wait(0.05)
+			end
 		end
 	end
 	for i = 1, 3 do
@@ -127,11 +142,17 @@ local function testCFrameUtility()
 		local y = (i == 2 and 1) or 0
 		local z = (i == 3 and 1) or 0
 		local upVector = Vector3.new(x, y, z)
-		for j = 1, 512 do
+		for j = 1, 256 do
 			local randomUpVector = random:NextUnitVector()
 			local randomCFrame = CFrameUtility.getRandomUpright(part.Position, randomUpVector)
 			local cframe = CFrameUtility.getStandUpright(randomCFrame, upVector)
 			print(cframe.UpVector:FuzzyEq(upVector))
+			if false then
+				part.CFrame = randomCFrame
+				task.wait(0.15)
+				part.CFrame = cframe
+				task.wait(0.3)
+			end
 		end
 	end
 	for i = 1, 3 do
@@ -140,16 +161,22 @@ local function testCFrameUtility()
 		local y = (i == 2 and 1) or 0
 		local z = (i == 3 and 1) or 0
 		local upVector = Vector3.new(x, y, z)
-		for j = 1, 512 do
+		for j = 1, 256 do
 			local randomUpVector = random:NextUnitVector()
 			local randomCFrame = CFrameUtility.getRandomUpright(part.Position, randomUpVector)
 			local cframe = CFrameUtility.getTiltUpright(randomCFrame, upVector)
 			print(cframe.LookVector:FuzzyEq(randomCFrame.LookVector))
+			if false then
+				part.CFrame = randomCFrame
+				task.wait(0.15)
+				part.CFrame = cframe
+				task.wait(0.3)
+			end
 		end
 	end
 	for i = 1, 3 do
 		print(`i: {i}`)
-		for j = 1, 32 do
+		for j = 1, 256 do
 			local randomUpVector = random:NextUnitVector()
 			randomUpVector = Vector3.yAxis
 			local randomCFrame1 = CFrameUtility.getRandomUpright(part.Position, randomUpVector)

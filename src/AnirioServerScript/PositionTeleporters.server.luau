@@ -18,7 +18,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Character = require(ReplicatedStorage["AnirioReplicated"].Character)
 
-local Trove = require(ReplicatedStorage["AnirioReplicated"].Packages.Trove)
+local Trove = require(ReplicatedStorage["AnirioReplicated"].Trove)
 
 ---------- Variables ----------
 
