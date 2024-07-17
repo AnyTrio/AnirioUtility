@@ -93,6 +93,8 @@ end
 ---------- Module functions ----------
 
 -- Constructor
+
+-- Create a new empty AnirioTable
 function AnirioTable.new<T>(): TableType<T>
 	-- New object
 	local self = setmetatable({} :: TableData<T>, AnirioTable) :: TableType<T>
@@ -231,13 +233,6 @@ function AnirioTable.removeValues<T>(self: TableType<T>, values: {T}, validateTy
 	end
 end
 
--- Clear the stored table
-function AnirioTable.clear<T>(self: TableType<T>)
-	table.clear(self._tableArray)
-	table.clear(self._tableValueState)
-	table.clear(self._lazyData._removingState)
-end
-
 -- Get
 -- Define get methods here
 
@@ -316,6 +311,13 @@ end
 
 -- Clean up
 -- Define cleanup methods here
+
+-- Clear the stored table
+function AnirioTable.clear<T>(self: TableType<T>)
+	table.clear(self._tableArray)
+	table.clear(self._tableValueState)
+	table.clear(self._lazyData._removingState)
+end
 
 -- Clean up the object
 function AnirioTable.destroy<T>(self: TableType<T>)

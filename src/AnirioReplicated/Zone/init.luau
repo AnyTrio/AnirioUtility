@@ -76,6 +76,8 @@ end
 ---------- Module functions ----------
 
 -- Constructor
+
+-- Create a new empty Zone
 function Zone.new(): ZoneType
 	-- New object
 	local self = setmetatable({} :: ZoneData, Zone) :: ZoneType
@@ -185,20 +187,20 @@ function Zone.addZoneHolder(self: ZoneType, holder: Instance)
 	end
 
 	-- Set up trove
-	local trove = Trove.new()
+	local holderTrove = Trove.new()
 
 	if self._holderTrove[holder] then
 		self._holderTrove[holder]:Destroy()
 	end
-	self._holderTrove[holder] = trove
+	self._holderTrove[holder] = holderTrove
 
 	-- Make connections
-	trove:Add(holder.DescendantAdded:Connect(function(descendant: Instance)
+	holderTrove:Add(holder.DescendantAdded:Connect(function(descendant: Instance)
 		if descendant:IsA("BasePart") then
 			self:_addActualParts({descendant})
 		end
 	end))
-	trove:Add(holder.DescendantRemoving:Connect(function(descendant: Instance)
+	holderTrove:Add(holder.DescendantRemoving:Connect(function(descendant: Instance)
 		if descendant:IsA("BasePart") then
 			self:_removeActualParts({descendant})
 		end
@@ -248,20 +250,23 @@ function Zone.getContainedPlayers(self: ZoneType)
 end
 
 -- Signals
--- Define signal handling here
+-- Define signal handling methods here
 
--- Set up signals
+-- (Internal) Set up signals
 function Zone._setUpSignals(self: ZoneType)
 	-- Update player parts
 	updatePlayerParts()
 
 	-- Player entered / exited
 	self._trove:Add(RunService.Heartbeat:Connect(function()
+		-- Validate enabled
+		if not self._enabled then
+			return
+		end
+
 		-- Get players in zone
 		local detectedPlayers: {Player} = {}
-		if self._enabled then
-			detectedPlayers = PlayerUtility.fromCharacterParts(SpatialQuery.getWhitelistedInParts(self._actualParts:getArray(), playerParts))
-		end
+		detectedPlayers = PlayerUtility.fromCharacterParts(SpatialQuery.getWhitelistedInParts(self._actualParts:getArray(), playerParts))
 
 		-- Get entered and exited players
 		local added, removed = self._containedPlayers:compareTableChanges(detectedPlayers)

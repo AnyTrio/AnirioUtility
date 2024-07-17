@@ -37,6 +37,8 @@ export type SomeType = typeof(setmetatable({} :: SomeData, SomeModule)) & {
 ---------- Module functions ----------
 
 -- Constructor
+
+-- Create a new (empty) SomeModule
 function SomeModule.new(): SomeType
 	-- New object
 	local self = setmetatable({} :: SomeData, SomeModule) :: SomeType
@@ -61,9 +63,9 @@ end
 -- Define combinations of set and get here
 
 -- Signals
--- Define signal handling here
+-- Define signal handling methods here
 
--- Set up signals
+-- (Internal) Set up signals
 function SomeModule._setUpSignals(self: SomeType)
 
 end

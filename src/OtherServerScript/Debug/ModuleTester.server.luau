@@ -13,6 +13,7 @@ end
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
 
 ---------- Imports ----------
 
@@ -20,6 +21,9 @@ local AnirioTable = require(ReplicatedStorage["AnirioReplicated"].AnirioTable)
 local CFrameUtility = require(ReplicatedStorage["AnirioReplicated"].CFrameUtility)
 local Character = require(ReplicatedStorage["AnirioReplicated"].Character)
 local PlayerUtility = require(ReplicatedStorage["AnirioReplicated"].PlayerUtility)
+local Timer = require(ReplicatedStorage["AnirioReplicated"].Timer)
+
+local Signal = require(ReplicatedStorage["AnirioReplicated"].Signal)
 
 ---------- Local functions ----------
 -- Define general functions here
@@ -230,18 +234,69 @@ local function testPlayerUtility()
 end
 
 local function testRaycast()
-	
+
 end
 
 local function testServers()
-	
+
 end
 
 local function testSpatialQuery()
-	
+
+end
+
+local function testTimer()
+	local sound = Instance.new("Sound")
+	sound.SoundId = "rbxassetid://142376088"
+	sound.Parent = workspace
+
+	local timer = Timer.new(1 / (138 / 60) * 4)
+	timer:setAllowDrift(false)
+	timer:setTimeFunction(function()
+		return sound.TimePosition
+	end)
+	timer:setUpdateSignal(RunService.Heartbeat)
+
+	local connection: Signal.Connection
+	connection = timer.ticked:Connect(function(totalTicks: number, signalTicks: number)
+		-- Calculate delta
+		local delta = math.sign(signalTicks)
+		if delta == 0 then
+			delta = 1
+		end
+
+		-- Go through all ticks
+		for tick = totalTicks - signalTicks + delta, totalTicks, delta do
+			print(`Tick: {tick}`)
+			-- print(`TickTime: {timer:getElapsedTime()}`)
+			if math.abs(tick) == 10 then
+				-- Won't work when running
+				timer:start()
+				timer:unpause()
+			end
+			if math.abs(tick) == 20 then
+				-- Pausing
+				timer:pause()
+				-- task.wait(2)
+				timer:unpause()
+			end
+			if math.abs(tick) >= 101 then
+				connection:Disconnect()
+				return
+			end
+		end
+	end)
+
+	task.wait(0.5)
+	timer:start(false)
+	sound:Play()
+end
+
+local function testZone()
+
 end
 
 ---------- Calling / connecting functions ----------
 -- Connect functions to events and signals, then call set up functions
 
-testCFrameUtility()
+testSpatialQuery()

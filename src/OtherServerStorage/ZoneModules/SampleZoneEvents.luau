@@ -14,17 +14,17 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local AnirioTable = require(ReplicatedStorage["AnirioReplicated"].AnirioTable)
 local Servers = require(ReplicatedStorage["AnirioReplicated"].Servers)
-local TimerUtility = require(ReplicatedStorage["AnirioReplicated"].Timer)
+local Timer = require(ReplicatedStorage["AnirioReplicated"].Timer)
 
 local Trove = require(ReplicatedStorage["AnirioReplicated"].Packages.Trove)
 
 ---------- Variables ----------
 
 local _teleportFunction = Servers.teleportNewReserve
-
-local timerTrove: Trove.Trove? = nil
-local timer: TimerUtility.TimerType? = nil
 local _countdownSeconds = 5
+
+local timerTrove = Trove.new()
+local timer: Timer.TimerType? = nil
 
 local _maxPlayers = 4
 
@@ -35,10 +35,7 @@ local _teleportGui = ReplicatedStorage["StoredGuis"].EmptyScreenGui
 ---------- Local functions ----------
 
 local function clearZone()
-	if timerTrove then
-		timerTrove:Destroy()
-	end
-	timerTrove = nil
+	timerTrove:Destroy()
 	timer = nil
 	_players:clear()
 end
@@ -52,22 +49,18 @@ local function teleportPlayers()
 end
 
 local function createNewTimer()
-	-- Set up trove
-	if timerTrove then
-		timerTrove:Destroy()
-	end
-	local trove = Trove.new()
-	timerTrove = trove
+	-- Clear trove
+	timerTrove:Destroy()
 
 	-- Create new timer
 	if timer then
 		timer:destroy()
 	end
-	local newTimer = trove:Add(TimerUtility.new(_countdownSeconds))
+	local newTimer = timerTrove:Add(Timer.new(_countdownSeconds))
 	timer = newTimer
 
 	-- Set up countdown (one tick)
-	newTimer.ticked:Once(teleportPlayers)
+	timerTrove:Add(newTimer.ticked:Once(teleportPlayers))
 end
 
 local function startTimer()
@@ -93,11 +86,15 @@ function ZoneEvents.onEntered(player: Player)
 		return
 	end
 
-	-- Create new timer if none
+	-- Check if there's an existing timer
 	local isNewTimer = false
 	if not timer then
 		isNewTimer = true
+
+		-- Clear players
 		clearZone()
+
+		-- Create new timer
 		createNewTimer()
 	end
 
