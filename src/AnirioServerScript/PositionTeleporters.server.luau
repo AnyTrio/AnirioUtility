@@ -27,6 +27,8 @@ local tagName = "PositionTeleporters"
 local interactionContainerName = "Teleporters"
 local destinationContainerName = "Destinations"
 
+local taggedObjectCharacterThrottles: {[Instance]: {[Model]: boolean}} = {}
+
 local taggedObjectTroves: {[Instance]: Trove.Trove} = {}
 local interactionTroves: {[BasePart]: Trove.Trove} = {}
 
@@ -38,13 +40,16 @@ local function getRandomElement<T>(source: {T}): T
 	return source[index]
 end
 
-local function onTeleporterPartAdded(part: BasePart, destinations: Instance)
-	-- Set up trove
+local function onTeleporterPartAdded(part: BasePart, destinations: Instance, taggedObject: Instance)
+	-- Set up interaction trove
 	local trove = Trove.new()
 	if interactionTroves[part] then
 		interactionTroves[part]:Destroy()
 	end
 	interactionTroves[part] = trove
+
+	-- Get throttle
+	local characterThrottles = taggedObjectCharacterThrottles[taggedObject]
 
 	-- Make connections
 	trove:Add(part.Touched:Connect(function(otherPart: BasePart)
@@ -54,6 +59,16 @@ local function onTeleporterPartAdded(part: BasePart, destinations: Instance)
 		if not (character and humanoidRootPart) then
 			return
 		end
+
+		-- Validate character throttle
+		if characterThrottles[character] then
+			return
+		end
+		characterThrottles[character] = true
+		task.defer(function()
+			task.wait(0.2);
+			characterThrottles[character] = false
+		end)
 
 		-- Get a destination
 		local baseParts: {BasePart} = {}
@@ -87,6 +102,9 @@ local function setUpTeleporter(taggedObject: Instance, teleporters: Instance, de
 		end
 	end
 
+	-- Set up throttle
+	taggedObjectCharacterThrottles[taggedObject] = {};
+
 	-- Set up trove
 	local trove = Trove.new()
 	if taggedObjectTroves[taggedObject] then
@@ -103,7 +121,7 @@ local function setUpTeleporter(taggedObject: Instance, teleporters: Instance, de
 				if not object:IsA("BasePart") then
 					continue
 				end
-				onTeleporterPartAdded(object, destinations)
+				onTeleporterPartAdded(object, destinations, taggedObject)
 			end
 		end)
 	end
@@ -111,7 +129,7 @@ local function setUpTeleporter(taggedObject: Instance, teleporters: Instance, de
 		if not child:IsA("BasePart") then
 			return
 		end
-		onTeleporterPartAdded(child, destinations)
+		onTeleporterPartAdded(child, destinations, taggedObject)
 	end))
 	trove:Add(teleporters.ChildRemoved:Connect(function(child: Instance)
 		if not child:IsA("BasePart") then
@@ -140,6 +158,9 @@ local function onInstanceAdded(object: Instance)
 end
 
 local function onInstanceRemoved(object: Instance)
+	-- Remove throttle
+	taggedObjectCharacterThrottles[object] = nil
+
 	-- Clean up
 	local trove = taggedObjectTroves[object]
 	if trove then

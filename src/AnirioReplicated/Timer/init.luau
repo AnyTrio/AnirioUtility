@@ -5,7 +5,7 @@
 -- Includes features such as pausing the timer and changing the time function
 
 -- Note: Either `os.clock` or `time` can be the default time function, though time() can't be used for plugins
--- Plan: Account for the elapsed time's floating-point error that accumlates over large number of ticks
+-- Plan: Account for the elapsed time's floating-point error that accumulates over large number of ticks
 
 ---------- Module ----------
 local Timer = {}
@@ -115,7 +115,7 @@ function Timer.setTimeFunction(self: TimerType, newTimeFunction: () -> number)
 	end
 end
 
--- Modify the update signal at which the timer calculates the time and ticks
+-- Modify the update signal at which the timer calculates the time
 function Timer.setUpdateSignal(self: TimerType, newUpdateSignal: RBXScriptSignal | Signal.Signal<>)
 	-- Update the signal
 	self._updateSignal = newUpdateSignal
