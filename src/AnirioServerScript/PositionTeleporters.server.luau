@@ -67,7 +67,7 @@ local function onTeleporterPartAdded(part: BasePart, destinations: Instance, tag
 		characterThrottles[character] = true
 		task.defer(function()
 			task.wait(0.2);
-			characterThrottles[character] = false
+			characterThrottles[character] = nil
 		end)
 
 		-- Get a destination
