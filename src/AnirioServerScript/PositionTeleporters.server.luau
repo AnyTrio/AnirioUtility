@@ -1,6 +1,8 @@
 --!strict
 -- Position Teleporters Script
 
+-- Sets up intra-place teleporters
+
 ---------- Validate container ----------
 -- Validate the script's container before running any code
 

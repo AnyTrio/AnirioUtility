@@ -3,6 +3,16 @@
 
 -- Template by Panicks28
 
+---------- Validate environment ----------
+-- Validate the script's environment before running any code
+
+local RunService = game:GetService("RunService")
+
+-- For certain plugin scripts
+if not RunService:IsEdit() then
+	return
+end
+
 ---------- Validate container ----------
 -- Validate the script's container before running any code
 
