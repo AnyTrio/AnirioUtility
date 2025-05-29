@@ -4,8 +4,10 @@
 -- A utility to expand and simplify spatial query operations
 -- Automatically switches query type depending on the shape of each part
 
+
 ---------- Module ----------
 local SpatialQuery = {}
+
 
 ---------- Types ----------
 
@@ -15,6 +17,7 @@ local PartShape: {[string]: PartShape} = {
 	Others = "Others",
 }
 type PartShape = "Block" | "Sphere" | "Others"
+
 
 ---------- Local functions ----------
 
@@ -34,10 +37,11 @@ local function getPartQueryShape(part: BasePart): PartShape
 end
 
 -- Get whitelisted parts inside a part
-local function getWhitelistedInSinglePart(spatialPart: BasePart, whitelisted: {BasePart}): {BasePart}
+local function getWhitelistedInSinglePart(spatialPart: BasePart, whitelisted: {BasePart}, collisionGroup: string?): {BasePart}
 	-- Initialize overlap parameters
 	local overlapParams = OverlapParams.new()
 	overlapParams.FilterType = Enum.RaycastFilterType.Include
+	overlapParams.CollisionGroup = collisionGroup or "Default"
 	overlapParams:AddToFilter(whitelisted)
 
 	-- Get estimated parts
@@ -63,7 +67,7 @@ local function getWhitelistedInSinglePart(spatialPart: BasePart, whitelisted: {B
 end
 
 -- Get whitelisted parts inside multiple parts
-local function getWhitelistedInParts(spatialParts: {BasePart}, whitelisted: {BasePart}): {BasePart}
+local function getWhitelistedInParts(spatialParts: {BasePart}, whitelisted: {BasePart}, collisionGroup: string?): {BasePart}
 	-- Initialize parts
 	local partsTable: {BasePart} = {}
 	local partFoundState: {[BasePart]: boolean?} = {}
@@ -71,7 +75,7 @@ local function getWhitelistedInParts(spatialParts: {BasePart}, whitelisted: {Bas
 	-- Get parts in multiple parts
 	for _, spatialPart in spatialParts do
 		-- Get parts in single part
-		local singlePartsTable = getWhitelistedInSinglePart(spatialPart, whitelisted)
+		local singlePartsTable = getWhitelistedInSinglePart(spatialPart, whitelisted, collisionGroup)
 
 		-- Add parts to table
 		for _, part in singlePartsTable do
@@ -103,12 +107,14 @@ local function getWhitelistedInParts(spatialParts: {BasePart}, whitelisted: {Bas
 	return partsTable
 end
 
+
 ---------- Module functions ----------
 
 -- Perform a spatial query with multiple spatial parts and a whitelisted filter
-function SpatialQuery.getWhitelistedInParts(spatialParts: {BasePart}, whitelisted: {BasePart}): {BasePart}
-	return getWhitelistedInParts(spatialParts, whitelisted)
+function SpatialQuery.getWhitelistedInParts(spatialParts: {BasePart}, whitelisted: {BasePart}, collisionGroup: string?): {BasePart}
+	return getWhitelistedInParts(spatialParts, whitelisted, collisionGroup)
 end
+
 
 ---------- Return module ----------
 return SpatialQuery
