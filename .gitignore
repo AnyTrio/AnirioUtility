@@ -5,6 +5,9 @@
 /*.rbxm
 /*.rbxl
 
+# Rojo sourcemap
+sourcemap.json
+
 # Roblox Studio lock files
 /*.rbxlx.lock
 /*.rbxl.lock

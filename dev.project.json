@@ -20,9 +20,6 @@
 		},
 
 		"ServerStorage": {
-			"AnirioServerStorage": {
-				"$path": "src/AnirioServerStorage"
-			},
 			"$path": "src/OtherServerStorage"
 		},
 

@@ -15,12 +15,12 @@ Here's the list of utility modules:
 | Module | Wally | Short Description & Features |
 | --- | --- | --- |
 | AnirioTable | https://wally.run/package/anytrio/anirio-table | Quick table, Multiset, Lazy evaluation |
-| CFrameUtility | https://wally.run/package/anytrio/cframe-utility | Common CFrame operations, random CFrame |
+| CFrameUtility | https://wally.run/package/anytrio/cframe-utility | Common `CFrame` operations |
 | Character | https://wally.run/package/anytrio/character | Get & validate characters |
-| PlayerUtility | https://wally.run/package/anytrio/player-utility | All characters' signals, Player character parts |
+| PlayerUtility | https://wally.run/package/anytrio/player-utility | Character signals, get `Player` parts |
 | Raycast | n/a |  |
 | Servers | n/a |  |
-| SpatialQuery | n/a |  |
+| SpatialQuery | https://wally.run/package/anytrio/spatial-query | Get parts overlapping a list of parts |
 | Timer | https://wally.run/package/anytrio/timer | Interval ticks, Pause, Reverse time, Rhythm |
 | Zone | n/a |  |
 

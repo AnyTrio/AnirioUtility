@@ -21,6 +21,7 @@ local AnirioTable = require(ReplicatedStorage["AnirioReplicated"].AnirioTable)
 local CFrameUtility = require(ReplicatedStorage["AnirioReplicated"].CFrameUtility)
 local Character = require(ReplicatedStorage["AnirioReplicated"].Character)
 local PlayerUtility = require(ReplicatedStorage["AnirioReplicated"].PlayerUtility)
+local SpatialQuery = require(ReplicatedStorage["AnirioReplicated"].SpatialQuery)
 local Timer = require(ReplicatedStorage["AnirioReplicated"].Timer)
 
 local Signal = require(ReplicatedStorage["AnirioReplicated"].Signal)
@@ -29,7 +30,7 @@ local Signal = require(ReplicatedStorage["AnirioReplicated"].Signal)
 -- Define general functions here
 
 local function testAnirioTable()
-	local stored = AnirioTable.new()
+	local stored: AnirioTable.TableType<string | number> = AnirioTable.new()
 	print(table.unpack(stored._tableArray))
 	--
 	stored:insertAll({1, 2, 3})
@@ -242,7 +243,35 @@ local function testServers()
 end
 
 local function testSpatialQuery()
+	local offsetXRange = NumberRange.new(-10, 10)
+	local offsetX = 10
+	local deltaX = 0.2
+	local startTime = time()
+	local part = Instance.new("Part")
+	part.Size = Vector3.new(2, 5, 2)
+	part.Transparency = 0.75
+	part.Anchored = true
+	part.CanCollide = false
+	part.Parent = workspace
+	while time() - startTime < 10 do
+		local humanoidRootPart = PlayerUtility.getAllPlayerParts({"HumanoidRootPart"})[1]
+		if humanoidRootPart then
+			-- Set part position
+			local offsetPosition = Vector3.new(offsetX, 0, 0)
+			part.Position = humanoidRootPart.Position + offsetPosition
+			offsetX += deltaX
+			if offsetX < offsetXRange.Min or offsetX > offsetXRange.Max then
+				deltaX *= -1
+			end
 
+			-- Spatial query check
+			local queriedParts = SpatialQuery.getWhitelistedInParts(PlayerUtility.getAllPlayerParts(), {part})
+			print(next(queriedParts) ~= nil)
+		else
+			print("No humanoid root part detected")
+		end
+		RunService.Heartbeat:Wait()
+	end
 end
 
 local function testTimer()
@@ -271,7 +300,7 @@ local function testTimer()
 			-- print(`TickTime: {timer:getElapsedTime()}`)
 			if math.abs(tick) == 10 then
 				-- Won't work when running
-				timer:start()
+				timer:start(false)
 				timer:unpause()
 			end
 			if math.abs(tick) == 20 then

@@ -6,6 +6,7 @@
 
 
 ---------- Module ----------
+
 local SpatialQuery = {}
 
 
@@ -19,7 +20,7 @@ local PartShape: {[string]: PartShape} = {
 type PartShape = "Block" | "Sphere" | "Others"
 
 
----------- Local functions ----------
+---------- Helper functions ----------
 
 -- Get the shape of the part used for spatial queries
 local function getPartQueryShape(part: BasePart): PartShape
@@ -36,19 +37,33 @@ local function getPartQueryShape(part: BasePart): PartShape
 	return partShape
 end
 
+-- Get valid `Instance` values from the given array
+local function getInstanceArray(array: {any}): {Instance}
+	local result = {}
+	for _, object in array do
+		if typeof(object) == "Instance" then
+			table.insert(result, object)
+		end
+	end
+	return result
+end
+
+
+---------- Spatial query functions ----------
+
 -- Get whitelisted parts inside a part
 local function getWhitelistedInSinglePart(spatialPart: BasePart, whitelisted: {BasePart}, collisionGroup: string?): {BasePart}
 	-- Initialize overlap parameters
 	local overlapParams = OverlapParams.new()
 	overlapParams.FilterType = Enum.RaycastFilterType.Include
 	overlapParams.CollisionGroup = collisionGroup or "Default"
-	overlapParams:AddToFilter(whitelisted)
+	overlapParams:AddToFilter(getInstanceArray(whitelisted))
 
 	-- Get estimated parts
 	local estimatedParts = workspace:GetPartBoundsInBox(spatialPart.CFrame, spatialPart.Size, overlapParams)
 
 	-- Prepare to get actual parts
-	overlapParams.FilterDescendantsInstances = estimatedParts
+	overlapParams.FilterDescendantsInstances = getInstanceArray(estimatedParts)
 	local partShape = getPartQueryShape(spatialPart)
 
 	-- Get actual parts
@@ -108,13 +123,12 @@ local function getWhitelistedInParts(spatialParts: {BasePart}, whitelisted: {Bas
 end
 
 
----------- Module functions ----------
+---------- Module fields ----------
 
 -- Perform a spatial query with multiple spatial parts and a whitelisted filter
-function SpatialQuery.getWhitelistedInParts(spatialParts: {BasePart}, whitelisted: {BasePart}, collisionGroup: string?): {BasePart}
-	return getWhitelistedInParts(spatialParts, whitelisted, collisionGroup)
-end
+SpatialQuery.getWhitelistedInParts = getWhitelistedInParts
 
 
 ---------- Return module ----------
+
 return SpatialQuery
