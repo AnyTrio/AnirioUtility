@@ -257,6 +257,12 @@ function AnirioTable.getValueCount<T>(self: TableType<T>, value: T): number
 	return getTableValueNumber(self._tableValue_countState, value)
 end
 
+-- **Deprecated** Equivalent to `getValueCount()`
+function AnirioTable.getValueState<T>(self: TableType<T>, value: T): number
+	warn("getValueState() is deprecated. Use getValueCount() instead.")
+	return self:getValueCount(value)
+end
+
 -- Check whether a value is found in the stored table
 function AnirioTable.contains<T>(self: TableType<T>, value: T): boolean
 	return self:getValueCount(value) > 0
