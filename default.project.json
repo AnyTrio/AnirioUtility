@@ -30,5 +30,6 @@
 			"$path": "src/OtherServerScript"
 		}
 	},
+	"globIgnorePaths": ["**/wally.toml"],
 	"emitLegacyScripts": false
 }

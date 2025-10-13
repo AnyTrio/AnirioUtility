@@ -6,9 +6,12 @@
 
 -- Note: Lazy evaluation is used to optimize removeValues()
 
+
 ---------- Module ----------
+
 local AnirioTable = {}
 AnirioTable.__index = AnirioTable
+
 
 ---------- Types ----------
 
@@ -16,18 +19,17 @@ AnirioTable.__index = AnirioTable
 type TableData<T> = {
 	-- Declare properties here
 	_tableArray: {T},
-	_tableValueState: {[T]: number},
+	_tableValue_countState: {[T]: number},
 
 	_useLazy: boolean,
 	_lazyData: {
-		_removingState: {[T]: number},
+		_removingValue_countState: {[T]: number},
 	},
 }
 
 -- Define module type
-export type TableType<T> = typeof(setmetatable({} :: TableData<T>, AnirioTable)) & {
-	destroy: (self: TableType<T>) -> (),
-}
+export type TableType<T> = typeof(setmetatable({} :: TableData<T>, AnirioTable))
+
 
 ---------- Local functions ----------
 
@@ -90,6 +92,7 @@ local function isTableEmpty(table: {[any]: any})
 	return next(table) == nil
 end
 
+
 ---------- Module functions ----------
 
 -- Constructor
@@ -97,17 +100,17 @@ end
 -- Create a new empty AnirioTable
 function AnirioTable.new<T>(): TableType<T>
 	-- New object
-	local self = setmetatable({} :: TableData<T>, AnirioTable) :: TableType<T>
+	local self = setmetatable({} :: TableData<T>, AnirioTable)
 
 	-- Attributes
 	-- Initialize attributes here
 
 	self._tableArray = {}
-	self._tableValueState = {}
+	self._tableValue_countState = {}
 
 	self._useLazy = true
 	self._lazyData = {
-		_removingState = {}
+		_removingValue_countState = {}
 	}
 
 	-- Methods
@@ -123,8 +126,8 @@ end
 -- (Internal) Evaluate delayed `removeValues()` operations
 function AnirioTable._evaluateLazyRemove<T>(self: TableType<T>)
 	-- Validate lazy data
-	local removingState = self._lazyData._removingState
-	if isTableEmpty(removingState) then
+	local removingValue_countState = self._lazyData._removingValue_countState
+	if isTableEmpty(removingValue_countState) then
 		return
 	end
 
@@ -134,10 +137,10 @@ function AnirioTable._evaluateLazyRemove<T>(self: TableType<T>)
 	-- Look through old values
 	for _, value in self._tableArray do
 		-- Check removing value
-		if removingState[value] then
-			-- Remove value state
-			changeTableValueBy(self._tableValueState, value, -1)
-			changeTableValueBy(removingState, value, -1)
+		if removingValue_countState[value] then
+			-- Decrement value count
+			changeTableValueBy(self._tableValue_countState, value, -1)
+			changeTableValueBy(removingValue_countState, value, -1)
 		else
 			-- Add to new values
 			table.insert(newValues, value)
@@ -148,7 +151,7 @@ function AnirioTable._evaluateLazyRemove<T>(self: TableType<T>)
 	self._tableArray = newValues
 
 	-- Clear lazy data
-	table.clear(self._lazyData._removingState)
+	table.clear(self._lazyData._removingValue_countState)
 end
 
 -- (Internal) Keep the table up to date by evaluating delayed operations
@@ -189,9 +192,9 @@ function AnirioTable.insertUnique<T>(self: TableType<T>, values: {T}, validateTy
 			continue
 		end
 
-		-- Insert value
+		-- Insert value & increment value count
 		table.insert(self._tableArray, value)
-		changeTableValueBy(self._tableValueState, value, 1)
+		changeTableValueBy(self._tableValue_countState, value, 1)
 	end
 end
 
@@ -207,24 +210,24 @@ function AnirioTable.insertAll<T>(self: TableType<T>, values: {T}, validateTypeO
 			continue
 		end
 
-		-- Insert value
+		-- Insert value & increment value count
 		table.insert(self._tableArray, value)
-		changeTableValueBy(self._tableValueState, value, 1)
+		changeTableValueBy(self._tableValue_countState, value, 1)
 	end
 end
 
 -- Remove values in the given table from the stored table
 function AnirioTable.removeValues<T>(self: TableType<T>, values: {T}, validateTypeOf: string?, validateIsA: string?)
 	-- Update removing state
-	local removingState = self._lazyData._removingState
+	local removingValue_countState = self._lazyData._removingValue_countState
 	for _, value in values do
 		-- Validate value type
 		if not valueIs(value, validateTypeOf, validateIsA) then
 			continue
 		end
 
-		-- Set removing state
-		changeTableValueBy(removingState, value, 1)
+		-- Increment removing count
+		changeTableValueBy(removingValue_countState, value, 1)
 	end
 
 	-- Evaluate immediately if not using lazy
@@ -245,23 +248,18 @@ function AnirioTable.getArray<T>(self: TableType<T>): {T}
 	return self._tableArray
 end
 
--- Access the state of a value; usually equivalent to the count of the value in the stored table
-function AnirioTable.getValueState<T>(self: TableType<T>, value: T): number
+-- Access the count state of a value; equivalent to the count of the value in the stored table
+function AnirioTable.getValueCount<T>(self: TableType<T>, value: T): number
 	-- Update
 	self:_update()
 
 	-- Return
-	return getTableValueNumber(self._tableValueState, value)
+	return getTableValueNumber(self._tableValue_countState, value)
 end
 
 -- Check whether a value is found in the stored table
 function AnirioTable.contains<T>(self: TableType<T>, value: T): boolean
-	-- Update
-	self:_update()
-
-	-- Return
-	local count = getTableValueNumber(self._tableValueState, value)
-	return (count > 0)
+	return self:getValueCount(value) > 0
 end
 
 -- Compare the stored table with the given table, returning the added and removed values as two tables
@@ -273,13 +271,13 @@ function AnirioTable.compareTableChanges<T>(self: TableType<T>, newTable: {T}): 
 	local addedValues: {T} = {}
 
 	-- Find added values
-	local newValueState: {[T]: number} = {}
+	local newValue_countState: {[T]: number} = {}
 	for _, newValue in newTable do
-		-- Set new value state
-		changeTableValueBy(newValueState, newValue, 1)
+		-- Increment new value count
+		changeTableValueBy(newValue_countState, newValue, 1)
 
 		-- Validate added value
-		if not (getTableValueNumber(newValueState, newValue) > self:getValueState(newValue)) then
+		if not (getTableValueNumber(newValue_countState, newValue) > self:getValueCount(newValue)) then
 			continue
 		end
 
@@ -289,17 +287,17 @@ function AnirioTable.compareTableChanges<T>(self: TableType<T>, newTable: {T}): 
 
 	-- Initialize removed
 	local removedValues: {T} = {}
-	local removedValueState: {[T]: number} = {}
+	local removedValue_countState: {[T]: number} = {}
 
 	-- Find removed values
 	for _, value in self:getArray() do
 		-- Validate removed value
-		if not (getTableValueNumber(newValueState, value) < self:getValueState(value)) then
+		if not (getTableValueNumber(newValue_countState, value) < self:getValueCount(value)) then
 			continue
 		end
 
-		-- Set removed value state
-		changeTableValueBy(removedValueState, value, 1)
+		-- Increment removed value state
+		changeTableValueBy(removedValue_countState, value, 1)
 
 		-- Store removed value
 		table.insert(removedValues, value)
@@ -315,8 +313,8 @@ end
 -- Clear the stored table
 function AnirioTable.clear<T>(self: TableType<T>)
 	table.clear(self._tableArray)
-	table.clear(self._tableValueState)
-	table.clear(self._lazyData._removingState)
+	table.clear(self._tableValue_countState)
+	table.clear(self._lazyData._removingValue_countState)
 end
 
 -- Clean up the object
@@ -324,5 +322,7 @@ function AnirioTable.destroy<T>(self: TableType<T>)
 	self:clear()
 end
 
+
 ---------- Return module ----------
+
 return AnirioTable

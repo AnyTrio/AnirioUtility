@@ -31,6 +31,8 @@ local Signal = require(ReplicatedStorage["AnirioReplicated"].Signal)
 
 local function testAnirioTable()
 	local stored: AnirioTable.TableType<string | number> = AnirioTable.new()
+	print("** insert & remove test 1")
+	-- ** insert & remove test 1
 	print(table.unpack(stored._tableArray))
 	--
 	stored:insertAll({1, 2, 3})
@@ -41,7 +43,7 @@ local function testAnirioTable()
 	stored:insertUnique({1, 2, 3, 4, 5, 4, 5})
 	print(table.unpack(stored._tableArray))
 	-- 1 2 3 4 5
-	print(stored:getValueState(1), stored:getValueState(2), stored:getValueState(3), stored:getValueState(-1), stored:getValueState(0))
+	print(stored:getValueCount(1), stored:getValueCount(2), stored:getValueCount(3), stored:getValueCount(-1), stored:getValueCount(0))
 	-- 1 1 1 0 0
 	stored:removeValues({1, 2, 3})
 	print(table.unpack(stored._tableArray))
@@ -51,6 +53,8 @@ local function testAnirioTable()
 	-- 1 2 3 4 5
 	print(table.unpack(stored:getArray()))
 	--
+	print("** insert & remove test 2")
+	-- ** insert & remove test 2
 	stored:insertUnique({1, 1, 2, 3, 3, 3, 4, 5, 5})
 	print(table.unpack(stored._tableArray))
 	-- 1 2 3 4 5
@@ -59,20 +63,20 @@ local function testAnirioTable()
 	stored:insertAll({1, 2, 3, 4, 5})
 	print(table.unpack(stored._tableArray))
 	-- 1 2 3 4 5 1 2 3 4 5
-	print(stored:getValueState(1), stored:getValueState(2), stored:getValueState(3), stored:getValueState(-1), stored:getValueState(0))
+	print(stored:getValueCount(1), stored:getValueCount(2), stored:getValueCount(3), stored:getValueCount(-1), stored:getValueCount(0))
 	-- 2 2 2 0 0
-	print(stored._tableValueState)
+	print(stored._tableValue_countState)
 	-- {[1]: 2, [2]: 2, [3]: 2, [4]: 2, [5]: 2}
 	stored:removeValues({1, 1, 2, 2, 3, 4})
 	print(table.unpack(stored._tableArray))
 	-- 1 2 3 4 5 1 2 3 4 5
-	print(stored:getValueState(1), stored:getValueState(2), stored:getValueState(3), stored:getValueState(4), stored:getValueState(5))
+	print(stored:getValueCount(1), stored:getValueCount(2), stored:getValueCount(3), stored:getValueCount(4), stored:getValueCount(5))
 	-- 0, 0, 1, 1, 2
 	print(stored:contains(1), stored:contains(2), stored:contains(3), stored:contains(4), stored:contains(5), stored:contains(6), stored:contains(-1))
 	-- false false true true true false false
-	print("the following prints might contain nil holes")
-	-- the following prints might contain "nil holes"
-	print(stored._tableValueState)
+	print('** the following prints contain "nil holes" due to numerical indexing')
+	-- ** the following prints contain "nil holes" due to numerical indexing
+	print(stored._tableValue_countState)
 	-- {[3]: 1, [4]: 1, [5]: 2}
 	stored:insertAll({1, 2, 3, 4, 5})
 	print(table.unpack(stored._tableArray))
@@ -82,22 +86,37 @@ local function testAnirioTable()
 	-- 5 3 4 5 1 2 3 4 5
 	print(stored:getArray())
 	-- {3, 4, 5}
-	print(stored._tableValueState)
+	print(stored._tableValue_countState)
 	-- {[3]: 1, [4]: 1, [5]: 1}
 	stored:insertAll({"a", "ab", "abacaba"})
 	print(table.unpack(stored._tableArray))
 	-- 3, 4, 5, a, ab, abacaba
-	print(stored._tableValueState)
+	print('** since we\'re inserting string values now, the "nil holes" should be gone')
+	-- ** since we're inserting string values now, the "nil holes" should be gone
+	print(stored._tableValue_countState)
 	-- {[3]: 1, [4]: 1, [5]: 1, a: 1, ab: 1, abacaba: 1}
 	stored:removeValues({"a", "abacaba"})
 	print(table.unpack(stored._tableArray))
-	-- 3, 4, 5, ab
-	print(stored._tableValueState)
+	-- 3, 4, 5, a, ab, abacaba
+	print(stored._tableValue_countState)
 	-- {[3]: 1, [4]: 1, [5]: 1, a: 1, ab: 1, abacaba: 1}
 	print(stored:contains("a"), stored:contains("ab"), stored:contains("abacaba"))
 	-- false, true, false
-	print(stored._tableValueState)
+	print(stored._tableValue_countState)
 	-- {[3]: 1, [4]: 1, [5]: 1, ab: 1}
+	stored:destroy()
+	print("** calling destroy() clears the data in the table")
+	-- ** calling destroy() clears the data in the table
+	print(stored._tableArray)
+	-- {}
+	print(stored._tableValue_countState)
+	-- {}
+	print(stored._lazyData._removingValue_countState)
+	-- {}
+	print(stored:getArray())
+	-- {}
+	print(stored:getValueCount(3))
+	-- 0
 end
 
 local function testCFrameUtility()
@@ -328,4 +347,4 @@ end
 ---------- Calling / connecting functions ----------
 -- Connect functions to events and signals, then call set up functions
 
-testSpatialQuery()
+testAnirioTable()
