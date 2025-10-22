@@ -4,12 +4,16 @@
 -- A utility to provide more features to the Players service
 -- Includes CharacterAdded and Removing signals/events for all players, which simplifies connections
 
+
 ---------- Module ----------
+
 local PlayerUtility = {}
+
 
 ---------- Services ----------
 
 local Players = game:GetService("Players")
+
 
 ---------- Imports ----------
 
@@ -19,6 +23,7 @@ local Character = require(AnirioReplicated.Character)
 local Packages = AnirioReplicated
 local Signal = require(Packages.Signal)
 
+
 ---------- Module variables ----------
 
 -- Fires when any player's character spawns or respawns
@@ -26,6 +31,7 @@ PlayerUtility.CharacterAdded = Signal.new() :: Signal.Signal<Player, Model>
 
 -- Fires right before any player's character is removed
 PlayerUtility.CharacterRemoving = Signal.new() :: Signal.Signal<Player, Model>
+
 
 ---------- Local functions ----------
 
@@ -124,6 +130,19 @@ local function getAllPlayerParts(includePartNames: {string}?): {BasePart}
 	return partsTable
 end
 
+local function getAllPlayerCharacters(): {Model}
+	local result = {}
+	local character
+	for _, player in Players:GetPlayers() do
+		character = player.Character
+		if character then
+			table.insert(result, character)
+		end
+	end
+	return result
+end
+
+
 ---------- Event functions ----------
 
 -- Connect the player's character signals to the utility's signal
@@ -141,6 +160,7 @@ local function onPlayerAdded(player: Player)
 	end)
 end
 
+
 ---------- Module functions ----------
 
 -- Get players from a mix of character parts and other parts
@@ -153,14 +173,22 @@ function PlayerUtility.getParts(player: Player, includePartNames: {string}?): {B
 	return getSinglePlayerParts(player, includePartNames)
 end
 
--- Get the `BasePart` children of all players current character models
+-- Get the `BasePart` children of all players' current character models
 function PlayerUtility.getAllPlayerParts(includePartNames: {string}?): {BasePart}
 	return getAllPlayerParts(includePartNames)
 end
+
+-- Get the character models of all players if they exist
+function PlayerUtility.getAllPlayerCharacters(): {Model}
+	return getAllPlayerCharacters()
+end
+
 
 ---------- Calling / connecting functions ----------
 
 Players.PlayerAdded:Connect(onPlayerAdded)
 
+
 ---------- Return module ----------
+
 return PlayerUtility
