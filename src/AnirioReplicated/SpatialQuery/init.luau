@@ -52,7 +52,7 @@ end
 ---------- Spatial query functions ----------
 
 -- Get whitelisted parts inside a part
-local function getWhitelistedInSinglePart(spatialPart: BasePart, whitelisted: {BasePart}, collisionGroup: string?): {BasePart}
+local function getWhitelistedInSinglePart(spatialPart: BasePart, whitelisted: {Instance}, collisionGroup: string?): {BasePart}
 	-- Initialize overlap parameters
 	local overlapParams = OverlapParams.new()
 	overlapParams.FilterType = Enum.RaycastFilterType.Include
@@ -82,7 +82,7 @@ local function getWhitelistedInSinglePart(spatialPart: BasePart, whitelisted: {B
 end
 
 -- Get whitelisted parts inside multiple parts
-local function getWhitelistedInParts(spatialParts: {BasePart}, whitelisted: {BasePart}, collisionGroup: string?): {BasePart}
+local function getWhitelistedInParts(spatialParts: {BasePart}, whitelisted: {Instance | any}, collisionGroup: string?): {BasePart}
 	-- Initialize parts
 	local partsTable: {BasePart} = {}
 	local partFoundState: {[BasePart]: boolean?} = {}
@@ -103,19 +103,6 @@ local function getWhitelistedInParts(spatialParts: {BasePart}, whitelisted: {Bas
 			-- Add part to table
 			table.insert(partsTable, part)
 		end
-
-		-- Updated whitelisted
-		local newWhitelisted = {}
-		for _, part in whitelisted do
-			-- Validate not found
-			if partFoundState[part] then
-				continue
-			end
-
-			-- Add to new whitelist
-			table.insert(newWhitelisted, part)
-		end
-		whitelisted = newWhitelisted
 	end
 
 	-- Return parts

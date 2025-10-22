@@ -285,7 +285,8 @@ local function testSpatialQuery()
 
 			-- Spatial query check
 			local queriedParts = SpatialQuery.getWhitelistedInParts(PlayerUtility.getAllPlayerParts(), {part})
-			print(next(queriedParts) ~= nil)
+			local queriedParts2 = SpatialQuery.getWhitelistedInParts({part}, PlayerUtility.getAllPlayerCharacters())
+			print(next(queriedParts) ~= nil, next(queriedParts2) ~= nil)
 		else
 			print("No humanoid root part detected")
 		end
@@ -347,4 +348,5 @@ end
 ---------- Calling / connecting functions ----------
 -- Connect functions to events and signals, then call set up functions
 
-testAnirioTable()
+-- testAnirioTable()
+testSpatialQuery()

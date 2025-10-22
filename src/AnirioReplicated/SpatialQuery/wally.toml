@@ -4,11 +4,12 @@ description = """A utility to expand and simplify spatial query operations;
 Automatically switches query type depending on the shape of each part;
 Part of Anirio Utility"""
 
-version = "1.0.0"
+version = "1.0.1"
 license = "MIT"
 authors = ["Mario Chao"]
 realm = "shared"
 registry = "https://github.com/UpliftGames/wally-index"
+repository = "https://github.com/AnyTrio/AnirioUtility"
 exclude = ["**/*/wally.toml"]
 
 [dependencies]
