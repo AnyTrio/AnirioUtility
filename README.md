@@ -14,14 +14,14 @@ These can be accompanied by assets found in the [Other Server Storage](/src/Othe
 Here's the list of utility modules:
 | Module | Wally | Short Description & Features |
 | --- | --- | --- |
-| AnirioTable | https://wally.run/package/anytrio/anirio-table | Quick table, Multiset, Lazy evaluation |
-| CFrameUtility | https://wally.run/package/anytrio/cframe-utility | Common `CFrame` operations |
-| Character | https://wally.run/package/anytrio/character | Get & validate characters |
-| PlayerUtility | https://wally.run/package/anytrio/player-utility | Character signals, get `Player` parts |
+| AnirioTable | [`anytrio/anirio-table`](https://wally.run/package/anytrio/anirio-table) | Quick table, Multiset, Lazy evaluation |
+| CFrameUtility | [`anytrio/cframe-utility`](https://wally.run/package/anytrio/cframe-utility) | Common `CFrame` operations |
+| Character | [`anytrio/character`](https://wally.run/package/anytrio/character) | Get & validate characters |
+| PlayerUtility | [`anytrio/player-utility`](https://wally.run/package/anytrio/player-utility) | Character signals, get `Player` parts |
 | Raycast | n/a |  |
 | Servers | n/a |  |
-| SpatialQuery | https://wally.run/package/anytrio/spatial-query | Get parts overlapping a list of parts |
-| Timer | https://wally.run/package/anytrio/timer | Interval ticks, Pause, Reverse time, Rhythm |
+| SpatialQuery | [`anytrio/spatial-query`](https://wally.run/package/anytrio/spatial-query) | Get parts overlapping a list of parts |
+| Timer | [`anytrio/timer`](https://wally.run/package/anytrio/timer) | Interval ticks, Pause, Reverse time, Rhythm |
 | Zone | n/a |  |
 
 # Rojo

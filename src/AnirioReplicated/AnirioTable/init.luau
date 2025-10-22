@@ -28,10 +28,12 @@ type TableData<T> = {
 }
 
 -- Define module type
-export type TableType<T> = typeof(setmetatable({} :: TableData<T>, AnirioTable))
+export type TableType<T> = TableData<T> & typeof(AnirioTable)
 
 
 ---------- Local functions ----------
+
+----- Value checking functions -----
 
 -- Check whether value is a specific type; true if no type given
 local function valueIsTypeOf(value, typeOfValue: string?): boolean
@@ -62,6 +64,9 @@ end
 local function valueIs(value, typeOfValue: string?, className: string?): boolean
 	return valueIsTypeOf(value, typeOfValue) and valueIsA(value, className)
 end
+
+
+----- Table functions -----
 
 -- Change the value at the specified table index by a given amount; non-numbers are considered 0
 local function changeTableValueBy(table: {[any]: number}, key: any, delta: number)
@@ -100,7 +105,7 @@ end
 -- Create a new empty AnirioTable
 function AnirioTable.new<T>(): TableType<T>
 	-- New object
-	local self = setmetatable({} :: TableData<T>, AnirioTable)
+	local self = setmetatable({} :: any, AnirioTable) :: TableType<T>
 
 	-- Attributes
 	-- Initialize attributes here
