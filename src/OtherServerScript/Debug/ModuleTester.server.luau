@@ -266,26 +266,30 @@ local function testSpatialQuery()
 	local offsetX = 10
 	local deltaX = 0.2
 	local startTime = time()
-	local part = Instance.new("Part")
-	part.Size = Vector3.new(2, 5, 2)
+	local part = workspace:FindFirstChild("SpatialTestPart") or Instance.new("Part")
+	if part.Name ~= "SpatialTestPart" then
+		part.Size = Vector3.new(2, 5, 2)
+	end
 	part.Transparency = 0.75
 	part.Anchored = true
 	part.CanCollide = false
 	part.Parent = workspace
-	while time() - startTime < 10 do
+	while true do
 		local humanoidRootPart = PlayerUtility.getAllPlayerParts({"HumanoidRootPart"})[1]
 		if humanoidRootPart then
 			-- Set part position
-			local offsetPosition = Vector3.new(offsetX, 0, 0)
-			part.Position = humanoidRootPart.Position + offsetPosition
-			offsetX += deltaX
-			if offsetX < offsetXRange.Min or offsetX > offsetXRange.Max then
-				deltaX *= -1
+			if time() - startTime < 10 then
+				local offsetPosition = Vector3.new(offsetX, 0, 0)
+				part.Position = humanoidRootPart.Position + offsetPosition
+				offsetX += deltaX
+				if offsetX < offsetXRange.Min or offsetX > offsetXRange.Max then
+					deltaX *= -1
+				end
 			end
 
 			-- Spatial query check
 			local queriedParts = SpatialQuery.getWhitelistedInParts(PlayerUtility.getAllPlayerParts(), {part})
-			local queriedParts2 = SpatialQuery.getWhitelistedInParts({part}, PlayerUtility.getAllPlayerCharacters())
+			local queriedParts2 = SpatialQuery.getWhitelistedInParts({part}, PlayerUtility.getAllPlayerParts())
 			print(next(queriedParts) ~= nil, next(queriedParts2) ~= nil)
 		else
 			print("No humanoid root part detected")
