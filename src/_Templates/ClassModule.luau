@@ -1,12 +1,10 @@
 --!strict
+
 -- Class Module Template
 
 -- Template by Panicks28
 -- For generic types, check out AnirioReplicated/AnirioTable
 
----------- Module ----------
-local SomeModule = {}
-SomeModule.__index = SomeModule
 
 ---------- Services ----------
 
@@ -14,7 +12,23 @@ SomeModule.__index = SomeModule
 
 local Packages = script.Parent
 
+
 ---------- Types ----------
+
+---------- Constants ----------
+
+---------- Globals ----------
+
+---------- Local functions ----------
+
+
+---------- Class ----------
+
+local SomeModule = {}
+SomeModule.__index = SomeModule
+
+
+----- Class types -----
 
 -- Define module data with potential properties
 type SomeData = {
@@ -28,13 +42,7 @@ export type SomeType = typeof(setmetatable({} :: SomeData, SomeModule)) & {
 	destroy: (self: SomeType) -> (),
 }
 
----------- Instances ----------
-
----------- Variables ----------
-
----------- Local functions ----------
-
----------- Module functions ----------
+----- Class fields -----
 
 -- Constructor
 
@@ -78,7 +86,8 @@ function SomeModule.destroy(self: SomeType)
 
 end
 
----------- Calling / connecting functions ----------
 
----------- Return module ----------
+---------- Return class ----------
+
+table.freeze(SomeModule)
 return SomeModule

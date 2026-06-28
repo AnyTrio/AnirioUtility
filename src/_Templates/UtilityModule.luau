@@ -1,10 +1,9 @@
 --!strict
+
 -- Utility Module Template
 
 -- Template by Panicks28
 
----------- Module ----------
-local SomeModule = {}
 
 ---------- Services ----------
 
@@ -12,21 +11,23 @@ local SomeModule = {}
 
 local Packages = script.Parent
 
+
 ---------- Types ----------
 
----------- Instances ----------
+---------- Constants ----------
 
----------- Variables ----------
-
----------- Module variables ----------
+---------- Globals ----------
 
 ---------- Local functions ----------
 
----------- Event functions ----------
+---------- Module ----------
 
----------- Module functions ----------
+local SomeModule = {}
 
----------- Calling / connecting functions ----------
+
+----- Module fields -----
 
 ---------- Return module ----------
+
+table.freeze(SomeModule)
 return SomeModule

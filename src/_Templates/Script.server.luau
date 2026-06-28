@@ -1,10 +1,11 @@
 --!strict
+
 -- Script Template
 
 -- Template by Panicks28
 
+
 ---------- Validate environment ----------
--- Validate the script's environment before running any code
 
 local RunService = game:GetService("RunService")
 
@@ -12,6 +13,7 @@ local RunService = game:GetService("RunService")
 if not RunService:IsEdit() then
 	return
 end
+
 
 ---------- Validate container ----------
 -- Validate the script's container before running any code
@@ -21,12 +23,17 @@ if script:FindFirstAncestorWhichIsA("StarterPack") then
 	return
 end
 
--- For some server scripts
+-- Replicated storage
+if not script:FindFirstAncestorWhichIsA("ReplicatedStorage") then
+	return
+end
+
+-- Server script service
 if not script:FindFirstAncestorWhichIsA("ServerScriptService") then
 	return
 end
 
--- For certain client scripts
+-- Player scripts
 if not script:FindFirstAncestorWhichIsA("PlayerScripts") then
 	return
 end
@@ -39,22 +46,20 @@ local CollectionService = game:GetService("CollectionService")
 
 ---------- Types ----------
 
----------- Instances ----------
+---------- Constants ----------
 
----------- Variables ----------
+---------- Globals ----------
 
 ---------- Local functions ----------
--- Define general functions here
 
----------- Event functions ----------
--- Functions that are directly connected by events or signals
+----- Event functions -----
 
----------- Set up function ----------
-local function initSetUp()
+----- Main -----
+
+local function main()
 
 end
 
----------- Calling / connecting functions ----------
--- Connect functions to events and signals, then call set up functions
+---------- Calling function ----------
 
-initSetUp()
+main()
